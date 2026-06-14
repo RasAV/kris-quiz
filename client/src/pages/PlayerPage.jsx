@@ -33,11 +33,12 @@ export default function PlayerPage({ name }) {
     }
   }, [buzzerEvent, myId]);
 
-  // Reset when question closes
+  // Reset only when question closes (becomes null), not when it opens
   useEffect(() => {
+    if (gameState?.activeQuestion != null) return;
     setBuzzerState('idle');
     setPressed(false);
-  }, [gameState?.activeQuestion === null]);
+  }, [gameState?.activeQuestion == null]);
 
   // Reset auction inputs on phase change
   useEffect(() => {
