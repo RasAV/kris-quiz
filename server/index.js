@@ -437,6 +437,41 @@ io.on('connection', (socket) => {
     io.emit('state', getPublicState());
   });
 
+  socket.on('host:resetGame', () => {
+    if (state.players[socket.id]?.role !== 'host') return;
+
+    // Reset board
+    state.board = buildBoard(gameData);
+    state.activeQuestion = null;
+    state.buzzerOpen = false;
+    state.buzzedPlayers = [];
+
+    // Reset player scores (keep players connected)
+    Object.values(state.players).forEach((p) => { if (p.role === 'player') p.score = 0; });
+
+    // Reset auction
+    clearInterval(musicTimer);
+    auction.phase = null;
+    auction.bets = {};
+    auction.answers = {};
+    auction.question = null;
+    auction.image = null;
+
+    // Reset music round
+    music.notes = buildMusicNotes(gameData);
+    music.activeNote = null;
+    music.timerPoints = 0;
+    music.timerRunning = false;
+    music.buzzerOpen = false;
+    music.buzzedPlayers = [];
+
+    io.emit('auction:end');
+    io.emit('question:hide');
+    io.emit('music:noteExpired');
+    io.emit('music:state', getMusicState());
+    io.emit('state', getPublicState());
+  });
+
   socket.on('disconnect', () => {
     delete state.players[socket.id];
     io.emit('state', getPublicState());

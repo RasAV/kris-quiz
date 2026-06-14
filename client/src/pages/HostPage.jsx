@@ -119,6 +119,18 @@ export default function HostPage({ name, onMusicRound }) {
             )}
           </div>
 
+          <button
+            className="host__reset-btn"
+            onClick={() => {
+              if (window.confirm('Сбросить игру? Все счета и прогресс будут обнулены.')) {
+                emit('host:resetGame');
+                setBuzzerStatus(null);
+              }
+            }}
+          >
+            ↺ Сброс
+          </button>
+
           <span className={`host__conn ${connected ? 'host__conn--ok' : ''}`}>
             {connected ? 'подключён' : 'нет связи'}
           </span>
