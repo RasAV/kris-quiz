@@ -1,0 +1,84 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --blue-dark: #040b2e;
+  --blue-mid: #0a1a6e;
+  --blue-btn: #1a3aad;
+  --blue-btn-hover: #2a50d0;
+  --blue-btn-border: #4a7aff;
+  --gold: #f0c040;
+  --gold-dark: #c09010;
+  --white: #ffffff;
+  --played: #0a0f30;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background: var(--blue-dark);
+  color: var(--white);
+  font-family: 'Open Sans', sans-serif;
+  overflow-x: hidden;
+}
+
+.starfield {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse at 20% 30%, #1a2a80 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 70%, #0e1a60 0%, transparent 50%),
+    var(--blue-dark);
+}
+
+.starfield::before, .starfield::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 10% 15%, white 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 45%, white 0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 10%, white 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 70%, white 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 25%, white 0%, transparent 100%),
+    radial-gradient(1px 1px at 85% 55%, white 0%, transparent 100%),
+    radial-gradient(1px 1px at 15% 80%, white 0%, transparent 100%),
+    radial-gradient(1px 1px at 60% 90%, white 0%, transparent 100%),
+    radial-gradient(2px 2px at 90% 10%, rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(2px 2px at 5% 60%, rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 35% 35%, white 0%, transparent 100%),
+    radial-gradient(1px 1px at 75% 75%, white 0%, transparent 100%),
+    radial-gradient(1px 1px at 50% 50%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 20% 65%, white 0%, transparent 100%),
+    radial-gradient(1px 1px at 95% 40%, white 0%, transparent 100%);
+  opacity: 0.6;
+}
+
+.starfield::after {
+  background-image:
+    radial-gradient(1px 1px at 8% 8%, white 0%, transparent 100%),
+    radial-gradient(1px 1px at 33% 88%, white 0%, transparent 100%),
+    radial-gradient(1px 1px at 67% 12%, white 0%, transparent 100%),
+    radial-gradient(1px 1px at 92% 92%, white 0%, transparent 100%),
+    radial-gradient(1px 1px at 48% 28%, white 0%, transparent 100%),
+    radial-gradient(2px 2px at 77% 48%, rgba(255,255,255,0.9) 0%, transparent 100%),
+    radial-gradient(1px 1px at 12% 42%, white 0%, transparent 100%),
+    radial-gradient(1px 1px at 88% 22%, white 0%, transparent 100%);
+  opacity: 0.4;
+}
+
+.page {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

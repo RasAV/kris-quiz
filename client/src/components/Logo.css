@@ -1,0 +1,28 @@
+.logo {
+  font-family: 'Russo One', sans-serif;
+  font-size: 4rem;
+  text-align: center;
+  line-height: 1;
+  filter: drop-shadow(0 0 20px rgba(100, 160, 255, 0.7));
+}
+
+.logo--small {
+  font-size: 2rem;
+}
+
+.logo__kris {
+  color: var(--white);
+  text-shadow:
+    0 0 10px #6ab0ff,
+    0 0 30px #3060d0,
+    2px 2px 0 #0a1a6e;
+  letter-spacing: 0.08em;
+}
+
+.logo__quiz {
+  color: var(--gold);
+  text-shadow:
+    0 0 10px rgba(240, 192, 64, 0.8),
+    2px 2px 0 #7a5000;
+  letter-spacing: 0.05em;
+}

@@ -1,0 +1,259 @@
+.qmodal__overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 30, 0.85);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 1rem;
+}
+
+.qmodal {
+  position: relative;
+  background: linear-gradient(160deg, #0e2090 0%, #050d50 100%);
+  border: 2px solid var(--blue-btn-border);
+  border-radius: 16px;
+  padding: 2.5rem 2rem 1.5rem;
+  max-width: 720px;
+  width: 100%;
+  box-shadow:
+    0 0 60px rgba(74, 122, 255, 0.3),
+    0 20px 60px rgba(0,0,0,0.6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  animation: modal-in 0.25s ease-out;
+}
+
+@keyframes modal-in {
+  from { transform: scale(0.9); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+.qmodal__points {
+  font-family: 'Russo One', sans-serif;
+  font-size: 2rem;
+  color: var(--gold);
+  text-shadow: 0 0 15px rgba(240,192,64,0.5);
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+}
+
+.qmodal__close {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  border-radius: 6px;
+  color: rgba(255,255,255,0.5);
+  font-size: 1rem;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+
+.qmodal__close:hover {
+  background: rgba(255,255,255,0.2);
+  color: white;
+}
+
+.qmodal__gear-wrap {
+  position: absolute;
+  top: 1rem;
+  right: 4rem;
+}
+
+.qmodal__gear {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.15s, transform 0.2s;
+  padding: 2px;
+  line-height: 1;
+}
+
+.qmodal__gear:hover {
+  opacity: 1;
+  transform: rotate(30deg);
+}
+
+.qmodal__gear-menu {
+  position: absolute;
+  top: 2rem;
+  right: 0;
+  background: #0e1a50;
+  border: 1px solid rgba(74,122,255,0.4);
+  border-radius: 10px;
+  padding: 0.4rem;
+  min-width: 200px;
+  z-index: 10;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+
+.qmodal__gear-item {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  background: none;
+  border: none;
+  border-radius: 7px;
+  color: rgba(255,255,255,0.8);
+  font-family: inherit;
+  font-size: 0.9rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.qmodal__gear-item:hover {
+  background: rgba(255,255,255,0.1);
+  color: white;
+}
+
+.qmodal__content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  min-height: 120px;
+  justify-content: center;
+}
+
+.qmodal__text {
+  font-size: 1.6rem;
+  line-height: 1.5;
+  text-align: center;
+  color: var(--white);
+  text-shadow: 1px 1px 4px #000;
+  padding: 1rem 0;
+}
+
+.qmodal__image {
+  max-width: 100%;
+  max-height: 50vh;
+  border-radius: 10px;
+  object-fit: contain;
+}
+
+.qmodal__video {
+  max-width: 100%;
+  max-height: 55vh;
+  border-radius: 10px;
+}
+
+.qmodal__audio-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.qmodal__audio-icon {
+  font-size: 4rem;
+  color: var(--gold);
+  animation: bounce 1s ease-in-out infinite alternate;
+}
+
+@keyframes bounce {
+  from { transform: scale(1); }
+  to   { transform: scale(1.15); }
+}
+
+.qmodal__audio-hint {
+  color: rgba(255,255,255,0.6);
+  font-size: 1rem;
+}
+
+audio {
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Host controls */
+.qmodal__host-controls {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.qmodal__waiting {
+  text-align: center;
+  color: #7aafff;
+  font-size: 1rem;
+  padding: 0.5rem;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.qmodal__buzzed {
+  text-align: center;
+  font-family: 'Russo One', sans-serif;
+  font-size: 1.4rem;
+  color: var(--gold);
+  text-shadow: 0 0 15px rgba(240,192,64,0.6);
+  padding: 0.25rem 0;
+}
+
+.qmodal__verdict-btns {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.qmodal__btn {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s;
+}
+
+.qmodal__btn:hover { opacity: 0.85; transform: translateY(-1px); }
+.qmodal__btn:active { transform: translateY(0); }
+
+.qmodal__btn--buzzer {
+  background: linear-gradient(135deg, #2060ff, #1040c0);
+  color: white;
+  font-size: 1.1rem;
+  padding: 1rem;
+  box-shadow: 0 4px 20px rgba(32,96,255,0.4);
+}
+
+.qmodal__btn--correct {
+  background: #1a7a2a;
+  color: #afffbf;
+}
+
+.qmodal__btn--wrong {
+  background: #8a1a1a;
+  color: #ffafaf;
+}
+
+.qmodal__btn--skip {
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.5);
+  border: 1px solid rgba(255,255,255,0.1);
+  font-size: 0.85rem;
+}

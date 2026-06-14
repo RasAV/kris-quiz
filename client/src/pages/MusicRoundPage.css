@@ -1,0 +1,153 @@
+.music-page {
+  background: #1a0808;
+}
+
+.music-page .starfield {
+  background:
+    radial-gradient(ellipse at 20% 30%, #3a1010 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 70%, #2a0808 0%, transparent 50%),
+    #1a0808;
+}
+
+.music-host {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.music-host__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.5rem;
+}
+
+.music-host__back {
+  padding: 0.4rem 0.9rem;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.6);
+  font-size: 0.85rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.music-host__back:hover {
+  background: rgba(255,255,255,0.14);
+  color: white;
+}
+
+.music-host__main {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  flex: 1;
+}
+
+.music-host__sidebar {
+  flex-shrink: 0;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0 0.75rem;
+}
+
+.music-host__sidebar-title {
+  font-family: 'Russo One', sans-serif;
+  font-size: 1rem;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.music-host__no-players {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.4);
+}
+
+.music-host__player {
+  background: rgba(60, 10, 10, 0.4);
+  border: 1px solid rgba(180, 60, 60, 0.25);
+  border-radius: 10px;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  transition: all 0.2s;
+}
+
+.music-host__player--buzzed {
+  border-color: var(--gold);
+  background: rgba(240, 192, 64, 0.12);
+  box-shadow: 0 0 15px rgba(240, 192, 64, 0.25);
+}
+
+.music-host__player-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.music-host__score-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.music-host__score {
+  font-family: 'Russo One', sans-serif;
+  font-size: 1.4rem;
+  color: var(--gold);
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+
+.music-host__score:hover {
+  background: rgba(240, 192, 64, 0.15);
+}
+
+.music-host__extended {
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Active note controls */
+.music-host__controls {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.music-host__timer {
+  font-family: 'Russo One', sans-serif;
+  font-size: 3.5rem;
+  text-align: center;
+  line-height: 1;
+  transition: color 0.5s;
+  text-shadow: 0 0 20px currentColor;
+}
+
+.music-host__timer-label {
+  text-align: center;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.6);
+  min-height: 1.4em;
+  font-family: 'Russo One', sans-serif;
+}
+
+.music-host__verdict-btns {
+  display: flex;
+  gap: 0.5rem;
+}

@@ -1,0 +1,94 @@
+{
+  "categories": [
+    {
+      "name": "Друзья и соседи",
+      "questions": [
+        { "points": 10, "type": "image_text", "image": "ustrici.png", "content": "После ЭТОГО, У Димки вышло больше, чем вошло" },
+        { "points": 20, "type": "image_text", "image": "bretzel.png", "content": "Какие символы Германии скрыты на фото?" },
+        { "points": 30, "type": "image_text", "image": "berlinerluft.jpeg", "content": "Какой популярный берлинский напиток, название которого в переводе с немецкого означает 'берлинская воздух' присутствует на фото?" },
+        { "points": 40, "type": "text", "content": "Вопрос 40 очков" },
+        { "points": 50, "type": "text", "content": "Вопрос 50 очков" }
+      ]
+    },
+    {
+      "name": "Круги на полях",
+      "questions": [
+        { "points": 10, "type": "video", "content": "roz1.MP4" },
+        { "points": 20, "type": "video", "content": "roz2.MP4" },
+        { "points": 30, "type": "video", "content": "ras1.MP4" },
+        { "points": 40, "type": "video", "content": "ras2.MP4" },
+        { "points": 50, "type": "audio", "content": "example.mp3" }
+      ]
+    },
+    {
+      "name": "Цитаты",
+      "questions": [
+        { "points": 10, "type": "image", "content": "jopa.png" },
+        { "points": 20, "type": "image", "content": "srat.png" },
+        { "points": 30, "type": "image", "content": "zapomnite.png" },
+        { "points": 40, "type": "image", "content": "spit.png" },
+        { "points": 50, "type": "image", "content": "ded.png" }
+      ]
+    },
+    {
+      "name": "Там сям, туда сюда",
+      "questions": [
+        { "points": 10, "type": "text", "content": "Назовите рецепт БигМака. Песней!" },
+        { "points": 20, "type": "text", "content": "В какой стране выпадает больше всего снега?" },
+        { "points": 30, "type": "text", "content": "ИХ можно установить много раз, но врачи говорят, что необходим толко один, а больше - вредит человеку" },
+        { "points": 40, "type": "text", "content": "Почему исполнители группы Губы предпочитали дарц другим видам спорта?" },
+       { "points": 50, "type": "text", "content": "Согласно легенде в советском союзе сощуствовало учреждение с аббревиатурой \"НИИ ХУЯ\". А чем занималось это учреждение по версии граждан?" }
+      ]
+    },
+    {
+      "name": "Пошлые есть?",
+      "questions": [
+        { "points": 10, "type": "text", "content": "Какой фильм вошел в историю благодаря легендарной сцене допроса без нижнего белья?" },
+        { "points": 20, "type": "text", "content": "Тапир может чесать себе спину членом, а чем особенен член селезня?" },
+        { "points": 30, "type": "auction", "content": "Сколько см в длину язык у жирафа?" },
+        { "points": 40, "type": "text", "content": "вопрос4" },
+        { "points": 50, "type": "text", "content": "Заполните пробел в цитате Шарика из Простоквашино: \"Я могу картошку окучивать задними лапами. И ___ - языком облизывать\" (2 слова)" }
+      ]
+    }
+  ],
+  "musicRound": {
+    "categories": [
+      {
+        "name": "Опять эти девки",
+        "notes": [
+          { "audio": "dora-Vtyurilas.mp3" },
+          { "audio": "monetochka-nimfomanka.mp3" },
+          { "audio": "neksyusha-Zavodskaya.mp3" },
+          { "audio": "prosto-lera-inoplanetyane.mp3" }
+        ]
+      },
+      {
+        "name": "Туц-Туц",
+        "notes": [
+          { "audio": "rufus-du-sol-underwater.mp3" },
+          { "audio": "jan-blomqvist-canope-des-cames.mp3" },
+          { "audio": "fatboy-slim-rockafeller-skank.mp3" },
+          { "audio": "anyma-sevdaliza-samsara.mp3" }
+        ]
+      },
+      {
+        "name": "Молодость",
+        "notes": [
+          { "audio": "ddt_-_belaya-ptica.mp3" },
+          { "audio": "korol-i-shut_-_durak-i-molniya.mp3" },
+          { "audio": "chizh-co_-_o-lyubvi.mp3" },
+          { "audio": "nautilus-pompilius-krylya.mp3" }
+        ]
+      },
+      {
+        "name": "Ща, ща, вспомню",
+        "notes": [
+          { "audio": "sun-41-scotty-doesnt-know.mp3" },
+          { "audio": "hans-zimmer-dream-is-collapsing-ost-inception.mp3" },
+          { "audio": "amerikanskii-pirog-vse-v-sbore-laid_mDt43EYn.mp3" },
+          { "audio": "linkin-park-what-i-039-ve-done.mp3" }
+        ]
+      }
+    ]
+  }
+}
