@@ -32,7 +32,8 @@ const auction = {
   bets: {},    // socketId -> amount
   answers: {}, // socketId -> text
   question: null, // overrides board question (used for super game)
-  image: null,    // optional image filename for super game question
+  image: null,    // optional image filename
+  video: null,    // optional video filename
 };
 
 function getAuctionPlayers() {
@@ -173,6 +174,9 @@ io.on('connection', (socket) => {
       auction.phase = 'betting';
       auction.bets = {};
       auction.answers = {};
+      auction.question = q.content ?? null;
+      auction.image = q.image ?? null;
+      auction.video = q.video ?? null;
       io.emit('auction:phase', { phase: 'betting', players: getAuctionPlayers() });
     }
   });
@@ -182,7 +186,7 @@ io.on('connection', (socket) => {
     state.activeQuestion = null;
     state.buzzerOpen = false;
     state.buzzedPlayers = [];
-    if (auction.phase) { auction.phase = null; auction.question = null; auction.image = null; io.emit('auction:end'); }
+    if (auction.phase) { auction.phase = null; auction.question = null; auction.image = null; auction.video = null; io.emit('auction:end'); }
     io.emit('question:hide');
     io.emit('state', getPublicState());
   });
@@ -233,7 +237,7 @@ io.on('connection', (socket) => {
     state.activeQuestion = null;
     state.buzzerOpen = false;
     state.buzzedPlayers = [];
-    if (auction.phase) { auction.phase = null; auction.question = null; auction.image = null; io.emit('auction:end'); }
+    if (auction.phase) { auction.phase = null; auction.question = null; auction.image = null; auction.video = null; io.emit('auction:end'); }
     io.emit('question:hide');
     io.emit('state', getPublicState());
   });
@@ -270,7 +274,7 @@ io.on('connection', (socket) => {
       const q = state.board[categoryIndex]?.questions[questionIndex];
       question = q?.content ?? '';
     }
-    io.emit('auction:phase', { phase: 'answering', question, image: auction.image ?? null, players: getAuctionPlayers() });
+    io.emit('auction:phase', { phase: 'answering', question, image: auction.image ?? null, video: auction.video ?? null, players: getAuctionPlayers() });
   });
 
   socket.on('host:openSuperGame', () => {
@@ -324,6 +328,7 @@ io.on('connection', (socket) => {
     auction.phase = null;
     auction.question = null;
     auction.image = null;
+    auction.video = null;
     io.emit('auction:end');
     io.emit('question:hide');
     io.emit('state', getPublicState());
@@ -456,6 +461,7 @@ io.on('connection', (socket) => {
     auction.answers = {};
     auction.question = null;
     auction.image = null;
+    auction.video = null;
 
     // Reset music round
     music.notes = buildMusicNotes(gameData);

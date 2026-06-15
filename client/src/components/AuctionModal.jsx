@@ -9,6 +9,7 @@ export default function AuctionModal({ phase, data, readyIds, onRevealBets, onSt
   const answers = data?.answers ?? [];
   const question = data?.question ?? '';
   const image = data?.image ?? null;
+  const video = data?.video ?? null;
 
   return (
     <div className="auction__overlay">
@@ -58,7 +59,8 @@ export default function AuctionModal({ phase, data, readyIds, onRevealBets, onSt
         {phase === 'answering' && (
           <>
             <h2 className="auction__title">Вопрос</h2>
-            {image && <img className="auction__question-image" src={`/media/${image}`} alt="Вопрос" />}
+            {video && <video className="auction__question-video" src={`/media/${video}`} controls />}
+            {image && !video && <img className="auction__question-image" src={`/media/${image}`} alt="Вопрос" />}
             <p className="auction__question-text">{question}</p>
             <div className="auction__players">
               {players.map((p) => (
