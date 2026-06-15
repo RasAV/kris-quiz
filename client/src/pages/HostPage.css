@@ -222,10 +222,35 @@
   box-shadow: 0 0 15px rgba(240, 192, 64, 0.3);
 }
 
+.host__player-name-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
 .host__player-name {
   font-weight: 700;
   font-size: 0.95rem;
   color: var(--white);
+}
+
+.host__kick-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 100, 100, 0.4);
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+  line-height: 1;
+  transition: color 0.15s, background 0.15s;
+  flex-shrink: 0;
+}
+
+.host__kick-btn:hover {
+  color: #ff6060;
+  background: rgba(255, 60, 60, 0.15);
 }
 
 .host__player-score-row {

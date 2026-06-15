@@ -2,6 +2,14 @@
   align-items: center;
 }
 
+.player__kicked {
+  font-family: 'Russo One', sans-serif;
+  font-size: 1.4rem;
+  color: rgba(255, 120, 120, 0.85);
+  text-align: center;
+  padding: 2rem;
+}
+
 .player {
   display: flex;
   flex-direction: column;

@@ -46,6 +46,13 @@ function getHostSocket() {
   return Object.values(state.players).find((p) => p.role === 'host');
 }
 
+// ── Score persistence by name ─────────────────────────────────────────────────
+const scoresByName = {}; // name -> score, survives reconnects
+
+function syncScore(player) {
+  if (player && player.role === 'player') scoresByName[player.name] = player.score;
+}
+
 // ── Main round state ──────────────────────────────────────────────────────────
 const state = {
   players: {},
@@ -139,10 +146,12 @@ io.on('connection', (socket) => {
   console.log('connected', socket.id);
 
   socket.on('join', ({ name, role }) => {
+    const playerName = name || `Игрок ${Object.keys(state.players).length + 1}`;
+    const restoredScore = (role === 'player' && scoresByName[playerName]) ?? 0;
     state.players[socket.id] = {
       id: socket.id,
-      name: name || `Игрок ${Object.keys(state.players).length + 1}`,
-      score: 0,
+      name: playerName,
+      score: restoredScore,
       role: role || 'player',
     };
     socket.emit('state', getPublicState());
@@ -207,6 +216,7 @@ io.on('connection', (socket) => {
     const points = q ? q.points : testPoints;
     if (!player || !points) return;
     player.score += points;
+    syncScore(player);
     if (q) q.played = true;
     state.activeQuestion = null;
     state.buzzerOpen = false;
@@ -223,6 +233,7 @@ io.on('connection', (socket) => {
     const points = q ? q.points : testPoints;
     if (!player || !points) return;
     player.score -= points;
+    syncScore(player);
     state.buzzedPlayers = [];
     state.buzzerOpen = true;
     io.emit('buzzer:open');
@@ -250,8 +261,7 @@ io.on('connection', (socket) => {
     const maxBet = Math.max(0, player.score);
     const bet = Math.min(Math.max(0, parseInt(amount) || 0), maxBet);
     auction.bets[socket.id] = bet;
-    const host = getHostSocket();
-    if (host) io.to(host.id).emit('auction:playerReady', { playerId: socket.id });
+    io.emit('auction:playerReady', { playerId: socket.id });
   });
 
   socket.on('host:revealBets', () => {
@@ -298,8 +308,7 @@ io.on('connection', (socket) => {
     const player = state.players[socket.id];
     if (!player || player.role !== 'player') return;
     auction.answers[socket.id] = answer ?? '';
-    const host = getHostSocket();
-    if (host) io.to(host.id).emit('auction:playerReady', { playerId: socket.id });
+    io.emit('auction:playerReady', { playerId: socket.id });
   });
 
   socket.on('host:revealAuctionAnswers', () => {
@@ -318,7 +327,7 @@ io.on('connection', (socket) => {
   socket.on('host:awardAuction', ({ winnerId }) => {
     if (state.players[socket.id]?.role !== 'host') return;
     const winner = state.players[winnerId];
-    if (winner) winner.score += (auction.bets[winnerId] ?? 0);
+    if (winner) { winner.score += (auction.bets[winnerId] ?? 0); syncScore(winner); }
     const { categoryIndex, questionIndex } = state.activeQuestion || {};
     const q = state.board[categoryIndex]?.questions[questionIndex];
     if (q) q.played = true;
@@ -334,10 +343,18 @@ io.on('connection', (socket) => {
     io.emit('state', getPublicState());
   });
 
+  socket.on('host:kickPlayer', ({ playerId }) => {
+    if (state.players[socket.id]?.role !== 'host') return;
+    const target = io.sockets.sockets.get(playerId);
+    if (target) target.emit('player:kicked');
+    delete state.players[playerId];
+    io.emit('state', getPublicState());
+  });
+
   socket.on('host:setScore', ({ playerId, score }) => {
     if (state.players[socket.id]?.role !== 'host') return;
     const player = state.players[playerId];
-    if (player) { player.score = score; io.emit('state', getPublicState()); }
+    if (player) { player.score = score; syncScore(player); io.emit('state', getPublicState()); }
   });
 
   // ── Music round ──
@@ -366,6 +383,7 @@ io.on('connection', (socket) => {
     if (!player || !music.activeNote) return;
     const points = music.activeNote.frozenPoints ?? music.timerPoints;
     player.score += points;
+    syncScore(player);
     clearInterval(musicTimer);
     const { ci, ni } = music.activeNote;
     if (music.notes[ci]?.notes[ni]) music.notes[ci].notes[ni].played = true;
@@ -384,7 +402,7 @@ io.on('connection', (socket) => {
     const resumeFrom = music.activeNote.frozenPoints ?? music.timerPoints;
     const penalty = Math.floor(resumeFrom / 2);
     const player = state.players[playerId];
-    if (player) player.score -= penalty;
+    if (player) { player.score -= penalty; syncScore(player); }
     music.activeNote.frozenPoints = null;
     startMusicTimer(resumeFrom);
     io.emit('state', getPublicState());
@@ -453,6 +471,7 @@ io.on('connection', (socket) => {
 
     // Reset player scores (keep players connected)
     Object.values(state.players).forEach((p) => { if (p.role === 'player') p.score = 0; });
+    Object.keys(scoresByName).forEach((k) => delete scoresByName[k]);
 
     // Reset auction
     clearInterval(musicTimer);

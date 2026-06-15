@@ -4,7 +4,7 @@ import Logo from '../components/Logo.jsx';
 import './PlayerPage.css';
 
 export default function PlayerPage({ name }) {
-  const { connected, gameState, buzzerEvent, emit, myId, auctionPhase } = useGame();
+  const { connected, gameState, buzzerEvent, emit, myId, auctionPhase, kicked } = useGame();
   const [buzzerState, setBuzzerState] = useState('idle'); // 'idle' | 'ready' | 'buzzed' | 'blocked' | 'winner'
   const [pressed, setPressed] = useState(false);
 
@@ -80,6 +80,17 @@ export default function PlayerPage({ name }) {
     blocked: 'Заблокирован',
     missed: 'Не успел',
   }[buzzerState];
+
+  if (kicked) {
+    return (
+      <div className="page player-page">
+        <div className="starfield" />
+        <div className="player">
+          <div className="player__kicked">Тебя удалили из игры</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="page player-page">

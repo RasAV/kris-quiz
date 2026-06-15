@@ -10,6 +10,7 @@ export function GameProvider({ children }) {
   const [activeQuestion, setActiveQuestion] = useState(null);
   const [buzzerEvent, setBuzzerEvent] = useState(null);
   const [myId, setMyId] = useState(null);
+  const [kicked, setKicked] = useState(false);
 
   // Auction state
   const [auctionPhase, setAuctionPhase] = useState(null);
@@ -27,6 +28,7 @@ export function GameProvider({ children }) {
     socketRef.current = socket;
 
     socket.on('connect', () => { setConnected(true); setMyId(socket.id); });
+    socket.on('player:kicked', () => setKicked(true));
     socket.on('disconnect', () => setConnected(false));
 
     // Auction
@@ -86,7 +88,7 @@ export function GameProvider({ children }) {
 
   return (
     <GameContext.Provider value={{
-      connected, gameState, activeQuestion, buzzerEvent, myId, emit,
+      connected, gameState, activeQuestion, buzzerEvent, myId, kicked, emit,
       auctionPhase, auctionData, auctionReadyIds,
       musicGameState, musicTimerPoints, activeMusicNote, musicFreezeEvent,
     }}>

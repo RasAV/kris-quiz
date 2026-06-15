@@ -154,7 +154,14 @@ export default function HostPage({ name, onMusicRound }) {
                 key={p.id}
                 className={`host__player ${firstBuzzer?.id === p.id ? 'host__player--buzzed' : ''}`}
               >
-                <span className="host__player-name">{p.name}</span>
+                <div className="host__player-name-row">
+                  <span className="host__player-name">{p.name}</span>
+                  <button
+                    className="host__kick-btn"
+                    title="Удалить игрока"
+                    onClick={() => emit('host:kickPlayer', { playerId: p.id })}
+                  >✕</button>
+                </div>
                 <div className="host__player-score-row">
                   {editingScore[p.id] !== undefined ? (
                     <>
