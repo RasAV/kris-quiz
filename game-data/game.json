@@ -15,7 +15,7 @@
       "questions": [
         { "points": 10, "type": "video", "content": "roz1.MP4" },
         { "points": 20, "type": "video", "content": "рамиль.MP4" },
-        { "points": 30, "type": "video", "content": "ras2.MP4" },
+        { "points": 30, "type": "video", "content": "алена.MP4" },
         { "points": 40, "type": "video", "content": "roz2.MP4" },
         { "points": 50, "type": "video", "content": "sonya.MP4" }
       ]
@@ -33,7 +33,7 @@
     {
       "name": "Там сям, туда сюда",
       "questions": [
-        { "points": 10, "type": "text", "content": "Назовите рецепт БигМака. Песней!" },
+        { "points": 10, "type": "video", "content": "ras2.MP4" },
         { "points": 20, "type": "auction", "video": "alina.MP4", "content": "" },
         { "points": 30, "type": "text", "content": "ИХ можно установить много раз, но врачи говорят, что необходим толко один, а больше - вредит человеку" },
         { "points": 40, "type": "text", "content": "Почему исполнители группы Губы предпочитали дарц другим видам спорта?" },
