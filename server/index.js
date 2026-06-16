@@ -289,7 +289,7 @@ io.on('connection', (socket) => {
 
   socket.on('host:openSuperGame', () => {
     if (state.players[socket.id]?.role !== 'host') return;
-    const superQ = { type: 'auction', content: 'Какой рост у любимого футболиста Крис — Поль Погба?', image: 'pogba.jpg', points: 0, isSuperGame: true };
+    const superQ = { type: 'auction', content: '19 апреля хиппи по всему миру отмечают «день велосипеда», хотя к велосипедам он имеет очень косвенное отношение. Годовщину какого события они празднуют?', image: 'hippy.jpg', points: 0, isSuperGame: true };
     state.activeQuestion = { categoryIndex: -99, questionIndex: -99, isSuperGame: true };
     state.buzzerOpen = false;
     state.buzzedPlayers = [];
