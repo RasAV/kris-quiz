@@ -10,6 +10,7 @@ export default function AuctionModal({ phase, data, readyIds, onRevealBets, onSt
   const question = data?.question ?? '';
   const image = data?.image ?? null;
   const video = data?.video ?? null;
+  const isOpenAnswer = data?.isOpenAnswer ?? false;
 
   return (
     <div className="auction__overlay">
@@ -84,7 +85,7 @@ export default function AuctionModal({ phase, data, readyIds, onRevealBets, onSt
                 <div key={a.id} className="auction__answer-row">
                   <div className="auction__answer-info">
                     <span className="auction__player-name">{a.name}</span>
-                    <span className="auction__answer-bet">ставка: {a.bet}</span>
+                    {!isOpenAnswer && <span className="auction__answer-bet">ставка: {a.bet}</span>}
                     <span className="auction__answer-text">"{a.answer}"</span>
                   </div>
                   <button

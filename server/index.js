@@ -34,6 +34,7 @@ const auction = {
   question: null, // overrides board question (used for super game)
   image: null,    // optional image filename
   video: null,    // optional video filename
+  isOpenAnswer: false, // true = open_answer type (no bets, winner gets question points)
 };
 
 function getAuctionPlayers() {
@@ -186,7 +187,18 @@ io.on('connection', (socket) => {
       auction.question = q.content ?? null;
       auction.image = q.image ?? null;
       auction.video = q.video ?? null;
+      auction.isOpenAnswer = false;
       io.emit('auction:phase', { phase: 'betting', players: getAuctionPlayers() });
+    }
+    if (q.type === 'open_answer') {
+      auction.phase = 'answering';
+      auction.bets = {};
+      auction.answers = {};
+      auction.question = q.content ?? null;
+      auction.image = q.image ?? null;
+      auction.video = q.video ?? null;
+      auction.isOpenAnswer = true;
+      io.emit('auction:phase', { phase: 'answering', isOpenAnswer: true, question: q.content ?? '', image: q.image ?? null, video: q.video ?? null, players: getAuctionPlayers() });
     }
   });
 
@@ -195,7 +207,7 @@ io.on('connection', (socket) => {
     state.activeQuestion = null;
     state.buzzerOpen = false;
     state.buzzedPlayers = [];
-    if (auction.phase) { auction.phase = null; auction.question = null; auction.image = null; auction.video = null; io.emit('auction:end'); }
+    if (auction.phase) { auction.phase = null; auction.question = null; auction.image = null; auction.video = null; auction.isOpenAnswer = false; io.emit('auction:end'); }
     io.emit('question:hide');
     io.emit('state', getPublicState());
   });
@@ -248,7 +260,7 @@ io.on('connection', (socket) => {
     state.activeQuestion = null;
     state.buzzerOpen = false;
     state.buzzedPlayers = [];
-    if (auction.phase) { auction.phase = null; auction.question = null; auction.image = null; auction.video = null; io.emit('auction:end'); }
+    if (auction.phase) { auction.phase = null; auction.question = null; auction.image = null; auction.video = null; auction.isOpenAnswer = false; io.emit('auction:end'); }
     io.emit('question:hide');
     io.emit('state', getPublicState());
   });
@@ -316,20 +328,33 @@ io.on('connection', (socket) => {
     if (auction.phase !== 'answering') return;
     auction.phase = 'answers_revealed';
     const answeredIds = new Set(Object.keys(auction.answers));
-    const answers = Object.entries(auction.bets).map(([id, bet]) => ({
-      id, bet,
-      name: state.players[id]?.name ?? '?',
-      answer: answeredIds.has(id) ? auction.answers[id] : '—',
-    }));
-    io.emit('auction:phase', { phase: 'answers_revealed', answers, players: getAuctionPlayers() });
+    let answers;
+    if (auction.isOpenAnswer) {
+      answers = getAuctionPlayers().map((p) => ({
+        id: p.id, bet: null,
+        name: p.name,
+        answer: answeredIds.has(p.id) ? auction.answers[p.id] : '—',
+      }));
+    } else {
+      answers = Object.entries(auction.bets).map(([id, bet]) => ({
+        id, bet,
+        name: state.players[id]?.name ?? '?',
+        answer: answeredIds.has(id) ? auction.answers[id] : '—',
+      }));
+    }
+    io.emit('auction:phase', { phase: 'answers_revealed', isOpenAnswer: auction.isOpenAnswer, answers, players: getAuctionPlayers() });
   });
 
   socket.on('host:awardAuction', ({ winnerId }) => {
     if (state.players[socket.id]?.role !== 'host') return;
     const winner = state.players[winnerId];
-    if (winner) { winner.score += (auction.bets[winnerId] ?? 0); syncScore(winner); }
     const { categoryIndex, questionIndex } = state.activeQuestion || {};
     const q = state.board[categoryIndex]?.questions[questionIndex];
+    if (winner) {
+      const points = auction.isOpenAnswer ? (q?.points ?? 0) : (auction.bets[winnerId] ?? 0);
+      winner.score += points;
+      syncScore(winner);
+    }
     if (q) q.played = true;
     state.activeQuestion = null;
     state.buzzerOpen = false;
@@ -338,6 +363,7 @@ io.on('connection', (socket) => {
     auction.question = null;
     auction.image = null;
     auction.video = null;
+    auction.isOpenAnswer = false;
     io.emit('auction:end');
     io.emit('question:hide');
     io.emit('state', getPublicState());

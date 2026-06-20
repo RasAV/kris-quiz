@@ -229,7 +229,7 @@ export default function HostPage({ name, onMusicRound }) {
         </div>
       </div>
 
-      {activeQuestion && activeQuestion.type !== 'auction' && (
+      {activeQuestion && activeQuestion.type !== 'auction' && activeQuestion.type !== 'open_answer' && (
         <QuestionModal
           question={activeQuestion}
           onClose={closeQuestion}
@@ -245,7 +245,7 @@ export default function HostPage({ name, onMusicRound }) {
         />
       )}
 
-      {activeQuestion?.type === 'auction' && (
+      {(activeQuestion?.type === 'auction' || activeQuestion?.type === 'open_answer') && (
         <AuctionModal
           phase={auctionPhase}
           data={auctionData}
