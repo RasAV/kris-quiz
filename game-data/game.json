@@ -26,7 +26,7 @@
         { "points": 10, "type": "image", "content": "jopa.png" },
         { "points": 20, "type": "image", "content": "srat.png" },
         { "points": 30, "type": "image", "content": "zapomnite.png" },
-        { "points": 40, "type": "image", "content": "spit.png" },
+        { "points": 40, "type": "auction", "image": "spit.png", "content": "" },
         { "points": 50, "type": "image", "content": "ded.png" }
       ]
     },
@@ -58,6 +58,16 @@
         { "points": 30, "type": "auction", "image": "vas3.jpeg", "content": "В каком десятилетии в США начался «Сухой закон»?" },
         { "points": 40, "type": "image_text", "image": "vas4.jpeg", "content": "В каком итальянском городе, по легенде, появился коктейль, названный в честь графа Камилло Негрони?" },
         { "points": 50, "type": "image_text", "image": "vas5.jpeg", "content": "Какой французский травяной ликёр, производимый картезианскими монахами по секретному рецепту из более чем 130 ингредиентов, является обязательным компонентом классического коктейля Last Word?" }
+      ]
+    },
+    {
+      "name": "Андрей Козлов и его старые британские пидоры",
+      "questions": [
+        { "points": 10, "type": "video", "content": "andy_1.mp4" },
+        { "points": 20, "type": "video", "content": "andy-5.mp4" },
+        { "points": 30, "type": "video", "content": "andy_4.MP4", "caption": "Назовите группу" },
+        { "points": 40, "type": "video", "content": "andy_2.MP4" },
+        { "points": 50, "type": "video", "content": "andy_3.mp4" }
       ]
     },
     {
