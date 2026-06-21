@@ -54,12 +54,15 @@ export default function QuestionModal({ question, onClose, isHost, hostControls 
           )}
 
           {question.type === 'video' && (
-            <video
-              ref={videoRef}
-              className="qmodal__video"
-              src={`/media/${question.content}`}
-              controls
-            />
+            <>
+              <video
+                ref={videoRef}
+                className="qmodal__video"
+                src={`/media/${question.content}`}
+                controls
+              />
+              {question.caption && <p className="qmodal__text">{question.caption}</p>}
+            </>
           )}
 
           {question.type === 'image_text' && (

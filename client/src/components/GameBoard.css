@@ -1,15 +1,15 @@
 .board {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   flex: 1;
   min-width: 0;
 }
 
 .board__row {
   display: grid;
-  grid-template-columns: 200px repeat(5, 1fr);
-  gap: 10px;
+  grid-template-columns: 175px repeat(5, 1fr);
+  gap: 8px;
   align-items: stretch;
 }
 
@@ -17,16 +17,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem 1rem;
+  padding: 0.4rem 0.6rem;
   background: linear-gradient(180deg, #1e3db5 0%, #0e2070 100%);
   border: 2px solid #3a5cd0;
   border-radius: 8px;
-  font-family: 'Russo One', sans-serif;
-  font-size: 1.15rem;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.78rem;
   color: var(--white);
   text-align: center;
   text-shadow: 1px 1px 3px #000;
-  min-height: 76px;
+  height: 62px;
+  overflow: hidden;
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,0.15),
     0 2px 8px rgba(0,0,0,0.4);
@@ -36,7 +38,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 76px;
+  height: 62px;
   background: linear-gradient(180deg, #2a4fc0 0%, #1530a0 50%, #0e2080 100%);
   border: 2px solid #4a7aff;
   border-radius: 8px;
@@ -90,7 +92,7 @@
 
 .board__points {
   font-family: 'Russo One', sans-serif;
-  font-size: 1.9rem;
+  font-size: 1.6rem;
   color: var(--gold);
   text-shadow:
     0 0 10px rgba(240, 192, 64, 0.6),
@@ -100,7 +102,7 @@
 .board__points--played {
   color: #4a5080;
   text-shadow: none;
-  font-size: 1.7rem;
+  font-size: 1.45rem;
 }
 
 .board__empty {
