@@ -155,6 +155,7 @@ export default function HostPage({ name, onMusicRound }) {
                 className={`host__player ${firstBuzzer?.id === p.id ? 'host__player--buzzed' : ''}`}
               >
                 <div className="host__player-name-row">
+                  <span className={`host__online-dot ${p.online !== false ? 'host__online-dot--on' : 'host__online-dot--off'}`} title={p.online !== false ? 'онлайн' : 'офлайн'} />
                   <span className="host__player-name">{p.name}</span>
                   <button
                     className="host__kick-btn"

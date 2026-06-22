@@ -75,7 +75,7 @@ function getPublicState() {
   return {
     board: state.board,
     players: Object.values(state.players).map((p) => ({
-      id: p.id, name: p.name, score: p.score, role: p.role,
+      id: p.id, name: p.name, score: p.score, role: p.role, online: p.online !== false,
     })),
     activeQuestion: state.activeQuestion,
     buzzerOpen: state.buzzerOpen,
@@ -147,6 +147,33 @@ io.on('connection', (socket) => {
   console.log('connected', socket.id);
 
   socket.on('join', ({ name, role }) => {
+    // Reconnect: find offline player with same name and restore them
+    if (role === 'player' && name) {
+      const existing = Object.values(state.players).find(
+        (p) => p.name === name && p.role === 'player' && p.online === false
+      );
+      if (existing) {
+        const oldId = existing.id;
+        existing.id = socket.id;
+        existing.online = true;
+        state.players[socket.id] = existing;
+        delete state.players[oldId];
+        // Migrate auction keys to new socket ID
+        if (auction.bets[oldId] !== undefined) { auction.bets[socket.id] = auction.bets[oldId]; delete auction.bets[oldId]; }
+        if (auction.answers[oldId] !== undefined) { auction.answers[socket.id] = auction.answers[oldId]; delete auction.answers[oldId]; }
+        // Re-send current state so player can continue
+        socket.emit('state', getPublicState());
+        socket.emit('music:state', getMusicState());
+        if (auction.phase === 'betting') {
+          socket.emit('auction:phase', { phase: 'betting', players: getAuctionPlayers() });
+        } else if (auction.phase === 'answering') {
+          socket.emit('auction:phase', { phase: 'answering', isOpenAnswer: auction.isOpenAnswer, question: auction.question ?? '', image: auction.image ?? null, video: auction.video ?? null, players: getAuctionPlayers() });
+        }
+        io.emit('state', getPublicState());
+        return;
+      }
+    }
+
     const playerName = name || `Игрок ${Object.keys(state.players).length + 1}`;
     const restoredScore = (role === 'player' && scoresByName[playerName]) ?? 0;
     state.players[socket.id] = {
@@ -154,6 +181,7 @@ io.on('connection', (socket) => {
       name: playerName,
       score: restoredScore,
       role: role || 'player',
+      online: true,
     };
     socket.emit('state', getPublicState());
     socket.emit('music:state', getMusicState());
@@ -516,7 +544,12 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
-    delete state.players[socket.id];
+    const player = state.players[socket.id];
+    if (player?.role === 'player') {
+      player.online = false; // keep player in state, just mark offline
+    } else {
+      delete state.players[socket.id];
+    }
     io.emit('state', getPublicState());
   });
 });

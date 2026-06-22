@@ -229,6 +229,23 @@
   gap: 0.5rem;
 }
 
+.host__online-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.host__online-dot--on {
+  background: #22c55e;
+  box-shadow: 0 0 5px rgba(34, 197, 94, 0.7);
+}
+
+.host__online-dot--off {
+  background: rgba(255, 255, 255, 0.18);
+}
+
 .host__player-name {
   font-weight: 700;
   font-size: 0.95rem;
