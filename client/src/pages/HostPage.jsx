@@ -253,7 +253,7 @@ export default function HostPage({ name, onMusicRound }) {
           onRevealBets={() => emit('host:revealBets')}
           onStartQuestion={() => emit('host:startAuctionQuestion')}
           onRevealAnswers={() => emit('host:revealAuctionAnswers')}
-          onAward={(winnerId) => { emit('host:awardAuction', { winnerId }); setBuzzerStatus(null); }}
+          onMark={(winnerId, correct) => emit('host:awardAuction', { winnerId, correct })}
           onClose={closeQuestion}
         />
       )}

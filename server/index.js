@@ -204,6 +204,9 @@ io.on('connection', (socket) => {
 
   socket.on('host:closeQuestion', () => {
     if (state.players[socket.id]?.role !== 'host') return;
+    const { categoryIndex, questionIndex } = state.activeQuestion || {};
+    const q = state.board[categoryIndex]?.questions[questionIndex];
+    if (q) q.played = true;
     state.activeQuestion = null;
     state.buzzerOpen = false;
     state.buzzedPlayers = [];
@@ -345,27 +348,16 @@ io.on('connection', (socket) => {
     io.emit('auction:phase', { phase: 'answers_revealed', isOpenAnswer: auction.isOpenAnswer, answers, players: getAuctionPlayers() });
   });
 
-  socket.on('host:awardAuction', ({ winnerId }) => {
+  socket.on('host:awardAuction', ({ winnerId, correct }) => {
     if (state.players[socket.id]?.role !== 'host') return;
-    const winner = state.players[winnerId];
+    const player = state.players[winnerId];
     const { categoryIndex, questionIndex } = state.activeQuestion || {};
     const q = state.board[categoryIndex]?.questions[questionIndex];
-    if (winner) {
+    if (player) {
       const points = auction.isOpenAnswer ? (q?.points ?? 0) : (auction.bets[winnerId] ?? 0);
-      winner.score += points;
-      syncScore(winner);
+      player.score += correct ? points : -points;
+      syncScore(player);
     }
-    if (q) q.played = true;
-    state.activeQuestion = null;
-    state.buzzerOpen = false;
-    state.buzzedPlayers = [];
-    auction.phase = null;
-    auction.question = null;
-    auction.image = null;
-    auction.video = null;
-    auction.isOpenAnswer = false;
-    io.emit('auction:end');
-    io.emit('question:hide');
     io.emit('state', getPublicState());
   });
 

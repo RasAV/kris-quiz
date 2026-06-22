@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './AuctionModal.css';
 
-export default function AuctionModal({ phase, data, readyIds, onRevealBets, onStartQuestion, onRevealAnswers, onAward, onClose }) {
+export default function AuctionModal({ phase, data, readyIds, onRevealBets, onStartQuestion, onRevealAnswers, onMark, onClose }) {
+  const [marked, setMarked] = useState({});
+
+  useEffect(() => { setMarked({}); }, [phase]);
+
   if (!phase) return null;
 
   const players = data?.players ?? [];
@@ -81,21 +85,30 @@ export default function AuctionModal({ phase, data, readyIds, onRevealBets, onSt
           <>
             <h2 className="auction__title">Ответы</h2>
             <div className="auction__answers">
-              {answers.map((a) => (
-                <div key={a.id} className="auction__answer-row">
-                  <div className="auction__answer-info">
-                    <span className="auction__player-name">{a.name}</span>
-                    {!isOpenAnswer && <span className="auction__answer-bet">ставка: {a.bet}</span>}
-                    <span className="auction__answer-text">"{a.answer}"</span>
+              {answers.map((a) => {
+                const verdict = marked[a.id];
+                return (
+                  <div key={a.id} className={`auction__answer-row${verdict ? ` auction__answer-row--${verdict}` : ''}`}>
+                    <div className="auction__answer-info">
+                      <span className="auction__player-name">{a.name}</span>
+                      {!isOpenAnswer && <span className="auction__answer-bet">ставка: {a.bet}</span>}
+                      <span className="auction__answer-text">"{a.answer}"</span>
+                    </div>
+                    <div className="auction__verdict-btns">
+                      <button
+                        className="auction__btn auction__btn--correct"
+                        disabled={!!verdict}
+                        onClick={() => { setMarked(m => ({ ...m, [a.id]: 'correct' })); onMark(a.id, true); }}
+                      >✓</button>
+                      <button
+                        className="auction__btn auction__btn--incorrect"
+                        disabled={!!verdict}
+                        onClick={() => { setMarked(m => ({ ...m, [a.id]: 'incorrect' })); onMark(a.id, false); }}
+                      >✗</button>
+                    </div>
                   </div>
-                  <button
-                    className="auction__btn auction__btn--award"
-                    onClick={() => onAward(a.id)}
-                  >
-                    Победитель
-                  </button>
-                </div>
-              ))}
+                );
+              })}
               {answers.length === 0 && (
                 <p className="auction__empty">Никто не ответил</p>
               )}
